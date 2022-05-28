@@ -1,18 +1,13 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <el-radio-group v-model="labelPosition" size="small">
+      <el-radio-button label="left">左对齐</el-radio-button>
+      <el-radio-button label="right">右对齐</el-radio-button>
+      <el-radio-button label="top">顶部对齐</el-radio-button>
+    </el-radio-group>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
 </script>
