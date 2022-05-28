@@ -2,24 +2,24 @@
   <div id="ReLogin">
 	  <div id="top">
 	  	  <el-radio-group v-model="labelPosition" size="small">
-	      <el-radio-button label="left" >登录</el-radio-button>
-	      <el-radio-button label="right"style="margin-left: 35px;">注册</el-radio-button>
+		  <el-button label="left"  @click =" tiaozhuanLogin()"> 登录</el-button>
+	      <el-button label="right" style="margin-left: 35px;">注册</el-button>
 	  </el-radio-group>
 	  </div>
 	  <div id="content">
 	  	<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-	    <el-form-item label="用户名" prop="pass">
-	      <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+	    <el-form-item label="用户名" prop="userName">
+	      <el-input type="text" v-model="ruleForm.userName" autocomplete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="手机号" prop="checkPass">
-	      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+	    <el-form-item label="手机号" prop="phone">
+	      <el-input type="number" v-model="ruleForm.phone" autocomplete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="密码" prop="age">
-	      <el-input v-model.number="ruleForm.age"></el-input>
+	    <el-form-item label="密码" prop="password">
+	      <el-input type="password" v-model="ruleForm.password"></el-input>
 	    </el-form-item>
 	    <div id="btnRegister">
 	    	<el-form-item>
-	    	  <el-button type="primary" style="width: 150px;" @click="submitForm('ruleForm')"  >登录</el-button>
+	    	  <el-button type="primary" style="width: 150px;" @click="submitForm('ruleForm')"  >注册</el-button>
 	    	  <!-- <el-button style="margin-left: 50px;"  @click="resetForm('ruleForm')"  >重置</el-button> -->
 	    	</el-form-item>
 	    </div>
@@ -34,62 +34,59 @@
 	export default{
 		el: "ReLogin",
 		    data() {
-				var checkAge = (rule, value, callback) => {
-					  if (!value) {
-						return callback(new Error('年龄不能为空'));
-					  }
-					  setTimeout(() => {
-						if (!Number.isInteger(value)) {
-						  callback(new Error('请输入数字值'));
-						} else {
-						  if (value < 18) {
-							callback(new Error('必须年满18岁'));
-						  } else {
-							callback();
-						  }
+				var checkName = (rule, value, callback) => {
+					  if (value === '') {
+						callback(new Error('请输入用户名'));
+					  } else {
+						if (this.ruleForm.userName !== '') {
+						  this.$refs.ruleForm.validateField('userName');
 						}
-					  }, 1000);
+						callback();
+					  }
 					};
-					var validatePass = (rule, value, callback) => {
+					var checkPhone = (rule, value, callback) => {
+					  if (value === '') {
+						callback(new Error('请输入手机号'));
+					  } else {
+						if (this.ruleForm.phone !== '') {
+						  this.$refs.ruleForm.validateField('phone');
+						}
+						callback();
+					  }
+					};
+					
+					var checkPassword = (rule, value, callback) => {
 					  if (value === '') {
 						callback(new Error('请输入密码'));
 					  } else {
-						if (this.ruleForm.checkPass !== '') {
-						  this.$refs.ruleForm.validateField('checkPass');
+						if (this.ruleForm.password !== '') {
+						  this.$refs.ruleForm.validateField('password');
 						}
 						callback();
 					  }
-					};
-					var validatePass2 = (rule, value, callback) => {
-					  if (value === '') {
-						callback(new Error('请再次输入密码'));
-					  } else if (value !== this.ruleForm.pass) {
-						callback(new Error('两次输入密码不一致!'));
-					  } else {
-						callback();
-					  }
-				};
-				
+					};	
+
 		      return {
 		        labelPosition: 'right',
 				 ruleForm: {
-				          pass: '',
-				          checkPass: '',
-				          age: ''
+				          userName: '',
+				          phone: '',
+				          password: ''
 				        },
 				        rules: {
-				          pass: [
-				            { validator: validatePass, trigger: 'blur' }
+				          userName: [
+				            { validator: checkName, trigger: 'blur' }
 				          ],
-				          checkPass: [
-				            { validator: validatePass2, trigger: 'blur' }
+				          phone: [
+				            { validator: checkPhone, trigger: 'blur' }
 				          ],
-				          age: [
-				            { validator: checkAge, trigger: 'blur' }
+				          password: [
+				            { validator: checkPassword, trigger: 'blur' }
 				          ]
 				        }
 				      }
-		      },
+			       },
+		   
 			  
 			   methods: {
 			        submitForm(formName) {
@@ -102,12 +99,12 @@
 			            }
 			          });
 			        },
-			        resetForm(formName) {
-			          this.$refs[formName].resetFields();
+					//页面跳转
+			        tiaozhuanLogin(){
+						this.$router.push('/');
 			        }
 			      }
-		}
-			  
+	}		  
 </script>
 
 <style type="text/css">
